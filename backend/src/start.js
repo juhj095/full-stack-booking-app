@@ -1,8 +1,14 @@
-import express from "express";
+var express = require("express");
 
 const app = express();
+var bodyParser = require("body-parser");
 
-const port = 8000;
+app.use(bodyParser.json());
+
+const bookingRoutes = require("./routes/bookingRoutes");
+app.use(bookingRoutes);
+
+const port = 3004;
 const hostname = "127.0.0.1";
 
 app.listen(port, hostname, () => {
