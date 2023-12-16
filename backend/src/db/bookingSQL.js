@@ -18,9 +18,14 @@ const executeSQL = (query, params) => {
     });
 }
 
-const getAll = () => {
-    const query = "SELECT * FROM Facility";
-    return executeSQL(query, []);
+const getAllFacilitiesByType = (typeId) => {
+    const query = "SELECT id, name, address FROM Facility WHERE FacilityType_id=(SELECT id FROM FacilityType WHERE type=?)";
+    return executeSQL(query, [typeId]);
 }
 
-module.exports = {getAll};
+const getAllBookingsByFacility = (facilityId) => {
+    const query = "SELECT id, time FROM Booking WHERE Facility_id=?";
+    return executeSQL(query, [facilityId]);
+}
+
+module.exports = { getAllFacilitiesByType, getAllBookingsByFacility };
