@@ -39,8 +39,13 @@ const findUser = (username) => {
 }
 
 const addUser = (username, password) => {
-    const query = "INSERT INTO Customer (name, password) VALUES (?,?)"
+    const query = "INSERT INTO Customer (name, password) VALUES (?,?)";
     return executeSQL(query, [username, password]);
 }
 
-module.exports = { getAllFacilities, getAllFacilitiesByType, getAllBookingsByFacility, findUser, addUser };
+const addBooking = (time, facilityId, customerId) => {
+    const query = "INSERT INTO Booking (time, Facility_id, Customer_id) VALUES (?,?,?)";
+    return executeSQL(query, [time, facilityId, customerId]);
+}
+
+module.exports = { getAllFacilities, getAllFacilitiesByType, getAllBookingsByFacility, findUser, addUser, addBooking };

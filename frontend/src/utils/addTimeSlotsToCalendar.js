@@ -13,7 +13,7 @@ export const addTimeSlotsToCalendar = (bookings) => {
                 return bookingTime === currentTimestamp;
             });
 
-            timeSlots.push(isBooked ? null : currentDate.toLocaleTimeString());
+            timeSlots.push(isBooked ? null : currentDate);
         }
     }
     return timeSlots;

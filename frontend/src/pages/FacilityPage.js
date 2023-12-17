@@ -4,6 +4,8 @@ import { addTimeSlotsToCalendar } from "../utils/addTimeSlotsToCalendar";
 import "./calendar.css";
 import Weekday from "../components/Weekday";
 import TimeSlot from "../components/TimeSlot";
+import { useUser } from "../auth/useUser";
+import { useNavigate } from "react-router-dom";
 
 const daysOfWeek = [
     { day: "Maanantai", date: "8.1.2024" },
@@ -16,14 +18,18 @@ const daysOfWeek = [
 const times = Array.from({ length: 12 }, (_, index) => `${8 + index}:00`);
 
 const FacilityPage = (props) => {
+    const user = useUser();
+    const navigate = useNavigate()
     const { facility } = props;
     const [loading, setLoading] = useState(true);
     const [bookings, setBookings] = useState([]);
     const timeSlots = addTimeSlotsToCalendar(bookings);
-    const [chosenTime, setChosenTime] = useState();
+    const [errorMessage, setErrorMessage] = useState("");
+    const [chosenTime, setChosenTime] = useState(new Date(0));
 
     const changeTime = (changedTime) => {
         setChosenTime(changedTime);
+        setErrorMessage("");
     }
 
     useEffect(() => {
@@ -41,7 +47,7 @@ const FacilityPage = (props) => {
     }, [facility]);
 
     return (
-        <>
+        <div className="contentContainer">
         <h1>{facility.name}</h1>
         <p>Osoite: {facility.address}</p>
         {
@@ -65,13 +71,15 @@ const FacilityPage = (props) => {
                 <div className="calendarData">
                     {
                         timeSlots.map((slot, index) => (
-                            <TimeSlot key={index} time={slot}></TimeSlot>
+                            <TimeSlot key={index} time={slot} handleTimeSlotClick={changeTime}></TimeSlot>
                         ))
                     }
                 </div>
             </div>
         }
-        </>
+        {errorMessage && <p>Valitse aika</p>}
+        <button className="bookButton">Varaa aika</button>
+        </div>
     );
 }
 
