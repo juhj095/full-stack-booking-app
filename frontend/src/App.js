@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import FacilityPage from './pages/FacilityPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
+import { PrivateRoute } from './auth/PrivateRoute';
 
 const App = () => {
   const [facilities, setFacilities] = useState([]);
@@ -46,6 +47,7 @@ const App = () => {
         }
         <Route path="login" element={<LoginPage />}></Route>
         <Route path="signup" element={<SignupPage />}></Route>
+        <Route path={"/user"} element={<PrivateRoute />}></Route>
         <Route path="/*" element={<NotFoundPage />}></Route>
       </Routes>
     </Router>

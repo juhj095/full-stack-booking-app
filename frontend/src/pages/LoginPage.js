@@ -1,14 +1,24 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useToken } from "../auth/useToken";
+import { login } from "../api/userApi";
 
 const LoginPage = () => {
+    const [token, setToken] = useToken();
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
     const [errorMessage, setErrorMessage] = useState();
     const navigate = useNavigate();
 
     const onLoginClicked = async () => {
-
+        try {
+            const response = await login(username, password);
+            const { token } = response;
+            setToken(token);
+            navigate("/user");
+        } catch (error) {
+            console.error("Login error:", error);
+        }
     }
     return (
         <div className="contentContainer">

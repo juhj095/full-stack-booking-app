@@ -9,4 +9,8 @@ router.route("/api/facilities/:typeId").get(ctrl.getAllFacilitiesByType)
 
 router.route("/api/bookings/:facilityId").get(ctrl.getAllBookingsByFacility);
 
+router.route("/api/signup").post(ctrl.signup);
+
+router.route("/api/login").post(ctrl.login);
+
 module.exports = router;

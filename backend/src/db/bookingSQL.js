@@ -33,4 +33,14 @@ const getAllBookingsByFacility = (facilityId) => {
     return executeSQL(query, [facilityId]);
 }
 
-module.exports = { getAllFacilities, getAllFacilitiesByType, getAllBookingsByFacility };
+const findUser = (username) => {
+    const query = "SELECT * FROM Customer WHERE name=?";
+    return executeSQL(query, [username]);
+}
+
+const addUser = (username, password) => {
+    const query = "INSERT INTO Customer (name, password) VALUES (?,?)"
+    return executeSQL(query, [username, password]);
+}
+
+module.exports = { getAllFacilities, getAllFacilitiesByType, getAllBookingsByFacility, findUser, addUser };
