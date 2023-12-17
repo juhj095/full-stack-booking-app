@@ -1,9 +1,13 @@
+import { Link } from "react-router-dom";
+
 const Facility = (props) => {
     const { name, address } = props;
     return(
         <div>
-        <h2>{name}</h2>
-        <p>{address}</p>
+            <Link to={`/kentät/${name}`}>
+                <h2>{name}</h2>
+                <p>Osoite: {address}</p>
+            </Link>
         </div>
     );
 }

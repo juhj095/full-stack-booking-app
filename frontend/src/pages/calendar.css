@@ -1,0 +1,63 @@
+.calendarContainer {
+    display: grid;
+    grid-template-areas: 
+    "head head head head head head head head"
+    "time data data data data data data data"
+    "time data data data data data data data"
+    "time data data data data data data data"
+    "time data data data data data data data"
+    "time data data data data data data data"
+    "time data data data data data data data"
+    "time data data data data data data data"
+    "time data data data data data data data"
+    "time data data data data data data data"
+    "time data data data data data data data"
+    "time data data data data data data data"
+    "time data data data data data data data";
+
+    width: 1000px;
+}
+
+.calendarContainer > * {
+    border: 1px solid black;
+    text-align: center;
+}
+
+.calendarHeader {
+    grid-area: head;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+}
+
+.calendarTime {
+    grid-area: time;
+    display: grid;
+}
+
+.calendarData {
+    grid-area: data;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(12, 1fr);
+}
+
+.calendarData > * {
+    border: 1px solid black;
+}
+
+.free {
+    background: none;
+	color: inherit;
+	border: 1px solid black;
+	font: inherit;
+	cursor: pointer;
+    text-decoration: none;
+}
+
+.booked {
+    background-color: rgb(236, 120, 120);
+}
+
+.free:hover, .free:focus {
+    background-color: aquamarine;
+}
