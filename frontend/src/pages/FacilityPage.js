@@ -36,7 +36,7 @@ const FacilityPage = (props) => {
         const fetchData = async () => {
             try {
                 const response = await getAllBookingsByFacility(facility.id);
-                setBookings(response);
+                if (Array.isArray(response)) setBookings(response);
             } catch (error) {
                 console.error("Error fetching bookings:", error);
             } finally {

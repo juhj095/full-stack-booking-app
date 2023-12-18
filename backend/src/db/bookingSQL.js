@@ -1,22 +1,4 @@
-var mysql = require("mysql");
-var dotenv = require("dotenv");
-
-dotenv.config({ path: "../.env" });
-
-var connection = mysql.createConnection({
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE
-});
-
-const executeSQL = (query, params) => {
-    return new Promise((resolve, reject) => {
-        connection.query(query, params, (error, result, fields) => {
-            error ? reject(error) : resolve(result);
-        });
-    });
-}
+const { executeSQL } = require("./connection");
 
 const getAllFacilities = () => {
     const query = "SELECT id, name, address FROM Facility";
@@ -33,19 +15,4 @@ const getAllBookingsByFacility = (facilityId) => {
     return executeSQL(query, [facilityId]);
 }
 
-const findUser = (username) => {
-    const query = "SELECT * FROM Customer WHERE name=?";
-    return executeSQL(query, [username]);
-}
-
-const addUser = (username, password) => {
-    const query = "INSERT INTO Customer (name, password) VALUES (?,?)";
-    return executeSQL(query, [username, password]);
-}
-
-const addBooking = (time, facilityId, customerId) => {
-    const query = "INSERT INTO Booking (time, Facility_id, Customer_id) VALUES (?,?,?)";
-    return executeSQL(query, [time, facilityId, customerId]);
-}
-
-module.exports = { getAllFacilities, getAllFacilitiesByType, getAllBookingsByFacility, findUser, addUser, addBooking };
+module.exports = { getAllFacilities, getAllFacilitiesByType, getAllBookingsByFacility };

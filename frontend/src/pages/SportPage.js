@@ -11,7 +11,7 @@ const SportPage = (props) => {
         const fetchData = async () => {
             try {
                 const response = await getAllFacilitiesByType(type);
-                setFacilities(response);
+                if (Array.isArray(response)) setFacilities(response);
             } catch (error) {
                 console.error("Error fetching facilities:", error);
             } finally {

@@ -16,15 +16,15 @@ const App = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-        try {
-            const response = await getAllFacilities();
-            setFacilities(response);
-        } catch (error) {
-            console.error("Error fetching facilities:", error);
-        }
+      try {
+        const response = await getAllFacilities();
+        if (Array.isArray(response)) setFacilities(response);
+      } catch (error) {
+        console.error("Error fetching facilities:", error);
+      }
     };
     fetchData();
-}, []);
+  }, []);
 
   return (
     <div className="pageContainer">

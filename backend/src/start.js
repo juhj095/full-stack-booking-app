@@ -17,6 +17,9 @@ app.use(cors);
 const bookingRoutes = require("./routes/bookingRoutes");
 app.use(bookingRoutes);
 
+const userRouter = require("./routes/userRoutes");
+app.use(userRouter);
+
 const port = 3004;
 const hostname = "127.0.0.1";
 
