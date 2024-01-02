@@ -22,6 +22,7 @@ const FacilityPage = (props) => {
     const navigate = useNavigate()
     const { facility } = props;
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [bookings, setBookings] = useState([]);
     const timeSlots = addTimeSlotsToCalendar(bookings);
     const [errorMessage, setErrorMessage] = useState("");
@@ -36,9 +37,9 @@ const FacilityPage = (props) => {
         const fetchData = async () => {
             try {
                 const response = await getAllBookingsByFacility(facility.id);
-                if (Array.isArray(response)) setBookings(response);
+                setBookings(response);
             } catch (error) {
-                console.error("Error fetching bookings:", error);
+                setError(error);
             } finally {
                 setLoading(false);
             }
@@ -46,15 +47,16 @@ const FacilityPage = (props) => {
         fetchData();
     }, [facility]);
 
+    if (loading) return <p>Loading...</p>
+    if (error) return <p>Error: {error}</p>;
+
     return (
         <div className="contentContainer">
-        <h1>{facility.name}</h1>
-        <p>Osoite: {facility.address}</p>
-        {
-            loading ? <p>Loading...</p> :
+            <h1>{facility.name}</h1>
+            <p>Osoite: {facility.address}</p>
+
             <div className="calendarContainer">
                 <div className="calendarHeader">
-                    <div></div>
                     {
                         daysOfWeek.map(day => (
                             <Weekday key={day} weekday={day}></Weekday>
@@ -76,9 +78,8 @@ const FacilityPage = (props) => {
                     }
                 </div>
             </div>
-        }
-        {errorMessage && <p>Valitse aika</p>}
-        <button className="bookButton">Varaa aika</button>
+            {errorMessage && <p>Valitse aika</p>}
+            <button className="bookButton">Varaa aika</button>
         </div>
     );
 }

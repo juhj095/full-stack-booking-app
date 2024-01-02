@@ -5,15 +5,16 @@ import Facility from "../components/Facility";
 const SportPage = (props) => {
     const { type } = props;
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [facilities, setFacilities] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await getAllFacilitiesByType(type);
-                if (Array.isArray(response)) setFacilities(response);
+                setFacilities(response);
             } catch (error) {
-                console.error("Error fetching facilities:", error);
+                setError(error);
             } finally {
                 setLoading(false);
             }
@@ -21,11 +22,13 @@ const SportPage = (props) => {
         fetchData();
     }, [type]);
 
+    if (loading) return <p>Loading...</p>
+    if (error) return <p>Error: {error}</p>;
+
     return (
         <>
         <h1>{type}</h1>
         {
-            loading ? <p>Loading...</p> :
             facilities.map(facility => (
                 <Facility key={facility.id} name={facility.name} address={facility.address}/>
             ))

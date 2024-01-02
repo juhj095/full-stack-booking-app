@@ -46,9 +46,9 @@ const App = () => {
               <Route key={facility.id} path={`/kentät/${facility.name}`} element={<FacilityPage facility={facility} />}></Route>
             ))
           }
-          <Route path="login" element={<LoginPage />}></Route>
-          <Route path="signup" element={<SignupPage />}></Route>
-          <Route path={"/user"} element={<PrivateRoute />}></Route>
+          <Route path="/login" element={<LoginPage />}></Route>
+          <Route path="/signup" element={<SignupPage />}></Route>
+          <Route path="/user" element={<PrivateRoute />}></Route>
           <Route path="/*" element={<NotFoundPage />}></Route>
         </Routes>
       </Router>

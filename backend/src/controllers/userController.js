@@ -26,7 +26,7 @@ const signup = async (req, res) => {
             });
 
     } catch (error) {
-        res.status(400).json({ message: "error" });
+        res.status(500).json({ message: "Internal Server Error" });
     }
 }
 
@@ -51,16 +51,18 @@ const login = async (req, res) => {
         }
         else res.sendStatus(401);
     } catch (error) {
-        res.status(400).json({ message: "error" });
+        res.status(500).json({ message: "Internal Server Error" });
     }
 }
 
 const getAllBookingsByUser = async (req, res) => {
     try {
         const { username } = req.params;
+        // TODO: check the user
         const bookings = await sql.getAllBookingsByUser(username);
+        res.status(200).json(bookings);
     } catch (error) {
-        
+        res.status(500).json({ message: "Internal Server Error" });
     }
 }
 

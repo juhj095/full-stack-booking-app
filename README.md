@@ -1,4 +1,6 @@
-# This project is not yet fully implemented
+# Full Stack Booking App
+
+This project is not yet fully implemented
 
 ## Getting Started
 
