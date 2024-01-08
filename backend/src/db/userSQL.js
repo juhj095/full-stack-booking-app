@@ -10,9 +10,9 @@ const addUser = (username, password) => {
     return executeSQL(query, [username, password]);
 }
 
-const getAllBookingsByUser = (username) => {
-    const query = "SELECT * FROM Booking WHERE Customer_id=(SELECT id FROM Customer WHERE name=?)";
-    return executeSQL(query, [username]);
+const getAllBookingsByUser = (id) => {
+    const query = "SELECT * FROM Booking WHERE Customer_id=?";
+    return executeSQL(query, [id]);
 }
 
 const addBooking = (time, facilityId, customerId) => {

@@ -5,7 +5,9 @@ import "./calendar.css";
 import Weekday from "../components/Weekday";
 import TimeSlot from "../components/TimeSlot";
 import { useUser } from "../auth/useUser";
+import { useToken } from "../auth/useToken";
 import { useNavigate } from "react-router-dom";
+import { addBooking } from "../api/userApi";
 
 const daysOfWeek = [
     { day: "Maanantai", date: "8.1.2024" },
@@ -19,18 +21,19 @@ const times = Array.from({ length: 12 }, (_, index) => `${8 + index}:00`);
 
 const FacilityPage = (props) => {
     const user = useUser();
+    const [token,] = useToken();
     const navigate = useNavigate()
     const { facility } = props;
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [errorLoading, setErrorLoading] = useState("");
     const [bookings, setBookings] = useState([]);
     const timeSlots = addTimeSlotsToCalendar(bookings);
-    const [errorMessage, setErrorMessage] = useState("");
-    const [chosenTime, setChosenTime] = useState(new Date(0));
+    const [errorMessage, setErrorMessage] = useState(false);
+    const [chosenTime, setChosenTime] = useState("");
 
     const changeTime = (changedTime) => {
         setChosenTime(changedTime);
-        setErrorMessage("");
+        setErrorMessage(false);
     }
 
     useEffect(() => {
@@ -38,8 +41,9 @@ const FacilityPage = (props) => {
             try {
                 const response = await getAllBookingsByFacility(facility.id);
                 setBookings(response);
+                setErrorLoading("");
             } catch (error) {
-                setError(error);
+                setErrorLoading(error.message);
             } finally {
                 setLoading(false);
             }
@@ -47,8 +51,23 @@ const FacilityPage = (props) => {
         fetchData();
     }, [facility]);
 
+    const handleBookButtonClicked = async () => {
+        if (!user) navigate("/login");
+        else if (!chosenTime) setErrorMessage(true)
+
+        else {
+            try {
+                const success = await addBooking(chosenTime, facility.id, user.id, token);
+                if (success) navigate("/user");
+                else setErrorLoading("Booking failed");
+            } catch (error) {
+                setErrorLoading(error.message);
+            }
+        }
+    }
+
     if (loading) return <p>Loading...</p>
-    if (error) return <p>Error: {error}</p>;
+    if (errorLoading) return <p>Error: {errorLoading}</p>;
 
     return (
         <div className="contentContainer">
@@ -79,7 +98,7 @@ const FacilityPage = (props) => {
                 </div>
             </div>
             {errorMessage && <p>Valitse aika</p>}
-            <button className="bookButton">Varaa aika</button>
+            <button className="bookButton" onClick={handleBookButtonClicked}>Varaa aika</button>
         </div>
     );
 }

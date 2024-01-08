@@ -1,12 +1,12 @@
 const TimeSlot = (props) => {
     const changeChosenTime = () => {
-        props.handleTimeSlotClick(props.time);
+        props.handleTimeSlotClick(props.time.toISOString());
     }
 
     return (
         <>
         {
-            props.time ? <button className="free" onClick={changeChosenTime}>{props.time.toLocaleTimeString()}</button> :
+            props.time ? <button className="free" onClick={changeChosenTime}>Vapaa</button> :
             <div className="booked">Varattu</div>
         }
         </>

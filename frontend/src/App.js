@@ -9,18 +9,22 @@ import { useEffect, useState } from 'react';
 import FacilityPage from './pages/FacilityPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
-import { PrivateRoute } from './auth/PrivateRoute';
+import UserInfoPage from './pages/UserInfoPage';
 
 const App = () => {
   const [facilities, setFacilities] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getAllFacilities();
-        if (Array.isArray(response)) setFacilities(response);
+        setFacilities(response);
       } catch (error) {
-        console.error("Error fetching facilities:", error);
+        setError(error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
@@ -42,13 +46,13 @@ const App = () => {
           <Route path="/jaakiekko" element={<SportPage type="Jääkiekko" />}></Route>
           <Route path="/tennis" element={<SportPage type="Tennis" />}></Route>
           {
-            facilities.map(facility => (
+            !loading && facilities.map(facility => (
               <Route key={facility.id} path={`/kentät/${facility.name}`} element={<FacilityPage facility={facility} />}></Route>
             ))
           }
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/signup" element={<SignupPage />}></Route>
-          <Route path="/user" element={<PrivateRoute />}></Route>
+          <Route path="/user" element={<UserInfoPage />}></Route>
           <Route path="/*" element={<NotFoundPage />}></Route>
         </Routes>
       </Router>
