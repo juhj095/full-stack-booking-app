@@ -11,7 +11,7 @@ const addUser = (username, password) => {
 }
 
 const getAllBookingsByUser = (id) => {
-    const query = "SELECT * FROM Booking WHERE Customer_id=?";
+    const query = "SELECT b.id, b.time, f.name AS facilityName, f.address FROM Booking b LEFT JOIN Facility f ON f.id = b.Facility_id WHERE b.Customer_id=?";
     return executeSQL(query, [id]);
 }
 

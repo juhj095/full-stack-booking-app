@@ -42,8 +42,9 @@ const UserInfoPage = () => {
             <>
             <h1>Omat varaukset: {user.user}</h1>
             {
+                // TODO: make a booking component with ability to delete bookings
                 bookings.map(booking => (
-                    <p key={booking.id}>{booking.id}</p>
+                    <p key={booking.id}>{booking.facilityName} {booking.time} {booking.address}</p>
                 ))
             }
             </>

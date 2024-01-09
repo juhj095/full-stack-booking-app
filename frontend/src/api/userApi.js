@@ -42,8 +42,11 @@ export const login = async (username, password) => {
 
 export const getAllBookingsByUser = async (userId, token) => {
     try {
-        //TODO: Verify user
-        const response = await fetch(`${BASE_URL}/api/user/${userId}/bookings`);
+        const response = await fetch(`${BASE_URL}/api/user/${userId}/bookings`, {
+            headers: {
+                "Authorization": `Bearer ${token}`,
+            }
+        });
 
         if (!response.ok) {
             throw new Error(`Failed to fetch bookings: ${response.statusText}`);
