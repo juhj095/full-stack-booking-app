@@ -52,10 +52,10 @@ const getAllBookingsByUser = async (req, res) => {
 const addBooking = async (req, res) => {
     try {
         const { userId, time, facilityId } = req.body;
+        if (!userId || !time || !facilityId) return res.sendStatus(400);
+
         const { id } = req.user;
         if (id !== userId) return res.sendStatus(401);
-
-        if (!userId || !time || !facilityId) return res.sendStatus(400);
 
         const date = new Date(time);
         if (!(date instanceof Date) || isNaN(date)) return res.sendStatus(400);
@@ -67,7 +67,20 @@ const addBooking = async (req, res) => {
     }
 }
 
-//TODO: delete booking
+const deleteBooking = async (req, res) => {
+    try {
+        const { bookingId, userId } = req.body;
+        if (!bookingId || !userId) return res.sendStatus(400);
+
+        const { id } = req.user;
+        if (id !== userId) return res.sendStatus(401);
+        
+        await sql.deleteBooking(bookingId);
+        res.sendStatus(204);
+    } catch (error) {
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}
 
 const signJWT = (userId, username) => {
     return new Promise((resolve, reject) => {
@@ -96,4 +109,4 @@ const verifyJWT = (req, res, next) => {
     }
 };
 
-module.exports = { signup, login, getAllBookingsByUser, addBooking, verifyJWT };
+module.exports = { signup, login, getAllBookingsByUser, addBooking, verifyJWT, deleteBooking };

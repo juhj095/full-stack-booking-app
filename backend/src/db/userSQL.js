@@ -20,4 +20,9 @@ const addBooking = (time, facilityId, customerId) => {
     return executeSQL(query, [time, facilityId, customerId]);
 }
 
-module.exports = { findUser, addUser, getAllBookingsByUser, addBooking };
+const deleteBooking = (bookingId) => {
+    const query = "DELETE FROM Booking WHERE id=?"
+    return executeSQL(query, [bookingId]);
+}
+
+module.exports = { findUser, addUser, getAllBookingsByUser, addBooking, deleteBooking };

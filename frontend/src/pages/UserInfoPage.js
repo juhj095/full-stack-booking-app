@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useUser } from "../auth/useUser";
 import { useNavigate } from "react-router-dom";
-import { getAllBookingsByUser } from "../api/userApi";
+import { getAllBookingsByUser, deleteBooking } from "../api/userApi";
 import { useToken } from "../auth/useToken";
+import Booking from "../components/Booking";
 
 const UserInfoPage = () => {
     const user = useUser();
@@ -13,19 +14,31 @@ const UserInfoPage = () => {
     const [bookings, setBookings] = useState([]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await getAllBookingsByUser(user.id, token);
-                setBookings(response);
-                setErrorLoading("");
-            } catch (error) {
-                setErrorLoading(error.message);
-            } finally {
-                setLoading(false);
-            }
-        }
-        fetchData();
+        fetchBookings();
     }, [user, token]);
+
+    const onDeleteBooking = (bookingId) => {
+        try {
+            const success = deleteBooking(bookingId, user.id, token);
+            if (success) {
+                fetchBookings();
+            }
+        } catch (error) {
+            // Error deleting booking
+        }
+    }
+
+    const fetchBookings = async () => {
+        try {
+            const response = await getAllBookingsByUser(user.id, token);
+            setBookings(response);
+            setErrorLoading("");
+        } catch (error) {
+            setErrorLoading(error.message);
+        } finally {
+            setLoading(false);
+        }
+    }
 
     if (!user) {
         navigate("/login");
@@ -42,9 +55,9 @@ const UserInfoPage = () => {
             <>
             <h1>Omat varaukset: {user.user}</h1>
             {
-                // TODO: make a booking component with ability to delete bookings
+                bookings.length === 0 ? <p>Ei varauksia</p> :
                 bookings.map(booking => (
-                    <p key={booking.id}>{booking.facilityName} {booking.time} {booking.address}</p>
+                    <Booking key={booking.id} booking={booking} onDelete={onDeleteBooking} />
                 ))
             }
             </>

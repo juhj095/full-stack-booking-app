@@ -11,4 +11,6 @@ router.route("/api/user/:id/bookings").get(ctrl.verifyJWT, ctrl.getAllBookingsBy
 
 router.route("/api/user/:id/bookings").post(ctrl.verifyJWT, ctrl.addBooking);
 
+router.route("/api/user/:id/bookings").delete(ctrl.verifyJWT, ctrl.deleteBooking);
+
 module.exports = router;

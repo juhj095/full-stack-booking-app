@@ -72,3 +72,19 @@ export const addBooking = async (time, facilityId, userId, token) => {
         throw error;
     }
 }
+
+export const deleteBooking = async (bookingId, userId, token) => {
+    try {
+        const response = await fetch(`${BASE_URL}/api/user/${userId}/bookings`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+            body: JSON.stringify({ bookingId, userId }),
+        });
+        return response.ok;
+    } catch (error) {
+        throw error;
+    }
+}
