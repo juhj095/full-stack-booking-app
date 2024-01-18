@@ -1,5 +1,10 @@
 const { executeSQL } = require("./connection");
 
+const getAllSportTypes = () => {
+    const query = "SELECT * FROM FacilityType";
+    return executeSQL(query, []);
+}
+
 const getAllFacilities = () => {
     const query = "SELECT id, name, address FROM Facility";
     return executeSQL(query, []);
@@ -15,4 +20,4 @@ const getAllBookingsByFacility = (facilityId) => {
     return executeSQL(query, [facilityId]);
 }
 
-module.exports = { getAllFacilities, getAllFacilitiesByType, getAllBookingsByFacility };
+module.exports = { getAllSportTypes, getAllFacilities, getAllFacilitiesByType, getAllBookingsByFacility };

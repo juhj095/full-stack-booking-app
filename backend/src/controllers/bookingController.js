@@ -1,5 +1,14 @@
 const sql = require("../db/bookingSQL");
 
+const getAllSportTypes = async (req, res) => {
+    try {
+        const sportTypes = await sql.getAllSportTypes();
+        res.status(200).json(sportTypes);
+    } catch (error) {
+        res.status(500).json({ message: error });
+    }
+}
+
 const getAllFacilities = async (req, res) => {
     try {
         const facilities = await sql.getAllFacilities();
@@ -27,4 +36,4 @@ const getAllBookingsByFacility = async (req, res) => {
     }
 }
 
-module.exports = { getAllFacilities, getAllFacilitiesByType, getAllBookingsByFacility };
+module.exports = { getAllSportTypes, getAllFacilities, getAllFacilitiesByType, getAllBookingsByFacility };

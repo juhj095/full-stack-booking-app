@@ -34,7 +34,7 @@ const UserInfoPage = () => {
             setBookings(response);
             setErrorLoading("");
         } catch (error) {
-            setErrorLoading(error.message);
+            if (error.response && error.response.status == 401) navigate("/login");
         } finally {
             setLoading(false);
         }

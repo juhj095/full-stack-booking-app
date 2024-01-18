@@ -1,5 +1,17 @@
 const BASE_URL = "http://localhost:3004";
 
+export const getAllSportTypes = async () => {
+    try {
+        const response = await fetch(`${BASE_URL}/api/sports`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    } catch (error) {
+        throw error;
+    }
+}
+
 export const getAllFacilities = async () => {
     try {
         const response = await fetch(`${BASE_URL}/api/facilities`);
